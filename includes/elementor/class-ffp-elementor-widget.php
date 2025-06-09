@@ -174,6 +174,66 @@ class FFP_Elementor_Widget extends Widget_Base {
             )
         );
         
+        $this->add_control(
+            'preferred_bookmaker',
+            array(
+                'label' => __('Preferred Bookmaker', 'football-fixtures-pro'),
+                'type' => Controls_Manager::SELECT,
+                'options' => array(
+                    '' => __('Auto (Best Available)', 'football-fixtures-pro'),
+                    '1' => __('1xBet', 'football-fixtures-pro'),
+                    '8' => __('Bet365', 'football-fixtures-pro'),
+                    '11' => __('William Hill', 'football-fixtures-pro'),
+                    '18' => __('Betway', 'football-fixtures-pro'),
+                    '5' => __('Unibet', 'football-fixtures-pro'),
+                    '9' => __('Ladbrokes', 'football-fixtures-pro'),
+                    '10' => __('Coral', 'football-fixtures-pro'),
+                    '6' => __('Bwin', 'football-fixtures-pro'),
+                    '12' => __('Pinnacle', 'football-fixtures-pro'),
+                    '14' => __('MarathonBet', 'football-fixtures-pro'),
+                ),
+                'default' => '1',
+                'description' => __('Choose your preferred bookmaker for odds display. 1xBet is set as default.', 'football-fixtures-pro'),
+                'condition' => array(
+                    'show_odds' => 'yes',
+                ),
+            )
+        );
+        
+        $this->add_control(
+            'league_filter_type',
+            array(
+                'label' => __('League Filter Type', 'football-fixtures-pro'),
+                'type' => Controls_Manager::SELECT,
+                'options' => array(
+                    'all' => __('All Leagues', 'football-fixtures-pro'),
+                    'selected' => __('Selected Leagues Only', 'football-fixtures-pro'),
+                    'region' => __('By Region', 'football-fixtures-pro'),
+                ),
+                'default' => 'selected',
+            )
+        );
+        
+        $this->add_control(
+            'region_filter',
+            array(
+                'label' => __('Select Region', 'football-fixtures-pro'),
+                'type' => Controls_Manager::SELECT,
+                'options' => array(
+                    'europe' => __('Europe', 'football-fixtures-pro'),
+                    'africa' => __('Africa', 'football-fixtures-pro'),
+                    'north_america' => __('North America', 'football-fixtures-pro'),
+                    'south_america' => __('South America', 'football-fixtures-pro'),
+                    'asia' => __('Asia', 'football-fixtures-pro'),
+                    'international' => __('International Competitions', 'football-fixtures-pro'),
+                ),
+                'default' => 'international',
+                'condition' => array(
+                    'league_filter_type' => 'region',
+                ),
+            )
+        );
+        
         $this->end_controls_section();
         
         // Style Section
@@ -244,17 +304,86 @@ class FFP_Elementor_Widget extends Widget_Base {
      * Get leagues options for select control
      */
     private function get_leagues_options() {
-        // Return static options to avoid API calls in admin
+        // Comprehensive league options organized by region
         $options = array(
+            // Major European Leagues
             '39' => 'Premier League (England)',
             '140' => 'La Liga (Spain)',
             '135' => 'Serie A (Italy)',
             '78' => 'Bundesliga (Germany)',
             '61' => 'Ligue 1 (France)',
+            '94' => 'Primeira Liga (Portugal)',
+            '88' => 'Eredivisie (Netherlands)',
+            
+            // International Competitions
             '2' => 'UEFA Champions League',
             '3' => 'UEFA Europa League',
+            '848' => 'UEFA Conference League',
             '1' => 'World Cup',
-            '4' => 'Euro Championship'
+            '4' => 'Euro Championship',
+            '5' => 'UEFA Nations League',
+            '10' => 'International Friendlies',
+            
+            // World Cup Qualifiers
+            '32' => 'WC Qualification CONCACAF',
+            '34' => 'WC Qualification Africa',
+            '33' => 'WC Qualification Asia',
+            '35' => 'WC Qualification South America',
+            
+            // Africa Cup of Nations & African Competitions
+            '6' => 'Africa Cup of Nations',
+            '12' => 'CAF Champions League',
+            '13' => 'CAF Confederation Cup',
+            '14' => 'AFCON Qualification',
+            
+            // African National Leagues
+            '233' => 'Elite One (Cameroon)',
+            '200' => 'Egyptian Premier League',
+            '202' => 'Botola Pro (Morocco)',
+            '204' => 'Ligue 1 (Algeria)',
+            '207' => 'Premier League (South Africa)',
+            '208' => 'Ligue 1 (Tunisia)',
+            '218' => 'Premier League (Ghana)',
+            '220' => 'Girabola (Angola)',
+            '244' => 'Premier League (Kenya)',
+            '253' => 'Ligue 1 (Senegal)',
+            
+            // North American Leagues
+            '253' => 'Major League Soccer (USA)',
+            '262' => 'Liga MX (Mexico)',
+            '254' => 'Canadian Premier League',
+            
+            // South American Leagues
+            '71' => 'Serie A (Brazil)',
+            '128' => 'Primera División (Argentina)',
+            '131' => 'Primera División (Chile)',
+            '239' => 'Primera A (Colombia)',
+            '242' => 'Primera División (Ecuador)',
+            '271' => 'Primera División (Uruguay)',
+            '273' => 'Primera División (Paraguay)',
+            
+            // South American Competitions
+            '11' => 'Copa Libertadores',
+            '13' => 'Copa Sudamericana',
+            '9' => 'Copa America',
+            
+            // Asian Leagues & Competitions
+            '188' => 'J1 League (Japan)',
+            '292' => 'K League 1 (South Korea)',
+            '169' => 'Super League (China)',
+            '15' => 'AFC Champions League',
+            '16' => 'AFC Cup',
+            '7' => 'Asian Cup',
+            
+            // CONCACAF Competitions
+            '16' => 'CONCACAF Champions League',
+            '17' => 'Gold Cup',
+            
+            // Youth & Special Competitions
+            '18' => 'FIFA U-20 World Cup',
+            '19' => 'FIFA U-17 World Cup',
+            '8' => 'FIFA Women\'s World Cup',
+            '18' => 'Olympic Games Football',
         );
         
         return $options;
@@ -344,7 +473,8 @@ class FFP_Elementor_Widget extends Widget_Base {
                         // Get odds if enabled
                         $odds_data = null;
                         if ($settings['show_odds'] === 'yes') {
-                            $odds_response = $api->get_odds($fixture['fixture']['id']);
+                            $bookmaker = !empty($settings['preferred_bookmaker']) ? $settings['preferred_bookmaker'] : null;
+                            $odds_response = $api->get_odds($fixture['fixture']['id'], '1X2', $bookmaker);
                             if (!is_wp_error($odds_response) && isset($odds_response['response'][0])) {
                                 $odds_data = $odds_response['response'][0];
                             }

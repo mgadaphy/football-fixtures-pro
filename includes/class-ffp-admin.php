@@ -355,7 +355,7 @@ class FFP_Admin {
             
             <div class="ffp-documentation">
                 <h2><?php echo esc_html__('Getting Started', 'football-fixtures-pro'); ?></h2>
-                <p><?php echo esc_html__('Welcome to Football Fixtures Pro! This plugin allows you to display football fixtures, odds, and team information on your WordPress site using Elementor.', 'football-fixtures-pro'); ?></p>
+                <p><?php echo esc_html__('Welcome to Football Fixtures Pro! This plugin allows you to display football fixtures, odds, and team information from over 100+ leagues worldwide using Elementor and shortcodes.', 'football-fixtures-pro'); ?></p>
                 
                 <h3><?php echo esc_html__('1. API Configuration', 'football-fixtures-pro'); ?></h3>
                 <p><?php echo esc_html__('First, you need to obtain an API key from api-football.com:', 'football-fixtures-pro'); ?></p>
@@ -381,32 +381,38 @@ class FFP_Admin {
                     <li><strong><?php echo esc_html__('Section Title:', 'football-fixtures-pro'); ?></strong> <?php echo esc_html__('Custom title for your fixtures section', 'football-fixtures-pro'); ?></li>
                     <li><strong><?php echo esc_html__('Select Date:', 'football-fixtures-pro'); ?></strong> <?php echo esc_html__('Choose which date to show fixtures for', 'football-fixtures-pro'); ?></li>
                     <li><strong><?php echo esc_html__('Select Leagues:', 'football-fixtures-pro'); ?></strong> <?php echo esc_html__('Filter by specific leagues or show all', 'football-fixtures-pro'); ?></li>
+                    <li><strong><?php echo esc_html__('Region Filter:', 'football-fixtures-pro'); ?></strong> <?php echo esc_html__('Show leagues by continent (Europe, Africa, Americas, Asia)', 'football-fixtures-pro'); ?></li>
+                    <li><strong><?php echo esc_html__('Preferred Bookmaker:', 'football-fixtures-pro'); ?></strong> <?php echo esc_html__('Choose odds provider (1xBet is default)', 'football-fixtures-pro'); ?></li>
                     <li><strong><?php echo esc_html__('Show Team Logos:', 'football-fixtures-pro'); ?></strong> <?php echo esc_html__('Display team logos in the fixtures', 'football-fixtures-pro'); ?></li>
                     <li><strong><?php echo esc_html__('Show Odds:', 'football-fixtures-pro'); ?></strong> <?php echo esc_html__('Display betting odds for matches', 'football-fixtures-pro'); ?></li>
                     <li><strong><?php echo esc_html__('Show Team Form:', 'football-fixtures-pro'); ?></strong> <?php echo esc_html__('Show recent team performance (W/L/D)', 'football-fixtures-pro'); ?></li>
+                    <li><strong><?php echo esc_html__('Odds Display Mode:', 'football-fixtures-pro'); ?></strong> <?php echo esc_html__('Choose how odds are displayed (replace logos, below teams, or separate section)', 'football-fixtures-pro'); ?></li>
                 </ul>
                 
-                <h3><?php echo esc_html__('4. Styling', 'football-fixtures-pro'); ?></h3>
-                <p><?php echo esc_html__('The widget includes comprehensive styling options:', 'football-fixtures-pro'); ?></p>
-                <ul>
-                    <li><?php echo esc_html__('Typography controls for titles and team names', 'football-fixtures-pro'); ?></li>
-                    <li><?php echo esc_html__('Color controls for text and backgrounds', 'football-fixtures-pro'); ?></li>
-                    <li><?php echo esc_html__('Border radius and spacing controls', 'football-fixtures-pro'); ?></li>
-                </ul>
+                <h3><?php echo esc_html__('4. Shortcode Usage', 'football-fixtures-pro'); ?></h3>
+                <p><?php echo esc_html__('You can use shortcodes in any post or page. Here are comprehensive examples:', 'football-fixtures-pro'); ?></p>
                 
-                <h3><?php echo esc_html__('5. Shortcode Usage', 'football-fixtures-pro'); ?></h3>
-                <p><?php echo esc_html__('You can also use shortcodes in any post or page:', 'football-fixtures-pro'); ?></p>
-                <code>[football_fixtures date="2025-06-07" leagues="39,140" show_odds="true" show_form="true"]</code>
+                <h4><?php echo esc_html__('Basic Usage:', 'football-fixtures-pro'); ?></h4>
+                <code>[football_fixtures]</code>
+                <p><?php echo esc_html__('Shows all matches for today with default settings', 'football-fixtures-pro'); ?></p>
                 
-                <h3><?php echo esc_html__('6. Troubleshooting', 'football-fixtures-pro'); ?></h3>
-                <ul>
-                    <li><strong><?php echo esc_html__('No matches showing:', 'football-fixtures-pro'); ?></strong> <?php echo esc_html__('Check your API key and internet connection', 'football-fixtures-pro'); ?></li>
-                    <li><strong><?php echo esc_html__('Slow loading:', 'football-fixtures-pro'); ?></strong> <?php echo esc_html__('Increase cache duration in settings', 'football-fixtures-pro'); ?></li>
-                    <li><strong><?php echo esc_html__('API errors:', 'football-fixtures-pro'); ?></strong> <?php echo esc_html__('Check your API quota on api-football.com', 'football-fixtures-pro'); ?></li>
-                </ul>
+                <h4><?php echo esc_html__('World Cup & International Matches:', 'football-fixtures-pro'); ?></h4>
+                <code>[football_fixtures region="international" bookmaker="1" title="World Cup & International Matches"]</code>
                 
-                <h3><?php echo esc_html__('Support', 'football-fixtures-pro'); ?></h3>
-                <p><?php printf(__('For support and updates, visit %s or contact Mo Gadaphy at MOGADONKO AGENCY.', 'football-fixtures-pro'), '<a href="https://mogadonko.com" target="_blank">mogadonko.com</a>'); ?></p>
+                <h4><?php echo esc_html__('African Football (AFCON, CAF, etc.):', 'football-fixtures-pro'); ?></h4>
+                <code>[football_fixtures region="africa" bookmaker="1" title="African Football Today" theme="african"]</code>
+                
+                <h4><?php echo esc_html__('Cameroon Elite One:', 'football-fixtures-pro'); ?></h4>
+                <code>[football_fixtures leagues="233" bookmaker="1" title="Cameroon Elite One" theme="cameroon"]</code>
+                
+                <h4><?php echo esc_html__('Major League Soccer (MLS):', 'football-fixtures-pro'); ?></h4>
+                <code>[football_fixtures leagues="253" bookmaker="1" title="MLS Today" theme="mls"]</code>
+                
+                <h4><?php echo esc_html__('European Top 5 Leagues:', 'football-fixtures-pro'); ?></h4>
+                <code>[football_fixtures leagues="39,140,135,78,61" bookmaker="1" title="Top 5 European Leagues"]</code>
+                
+                <h3><?php echo esc_html__('5. Support & Updates', 'football-fixtures-pro'); ?></h3>
+                <p><?php printf(__('For support, updates, and custom development, visit %s or contact Mo Gadaphy at MOGADONKO AGENCY.', 'football-fixtures-pro'), '<a href="https://mogadonko.com" target="_blank">mogadonko.com</a>'); ?></p>
             </div>
         </div>
         <?php

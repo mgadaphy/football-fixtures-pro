@@ -61,12 +61,260 @@
     background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
     border-radius: 8px;
     border-left: 4px solid #007cba;
+    justify-content: space-between;
+    flex-wrap: wrap;
 }
 
 .ffp-league-logo {
     width: 24px;
     height: 24px;
     object-fit: contain;
+}
+
+.ffp-league-country {
+    font-size: 12px;
+    font-weight: normal;
+    color: #6c757d;
+    background: rgba(108, 117, 125, 0.1);
+    padding: 2px 8px;
+    border-radius: 12px;
+    margin-left: auto;
+}
+
+/* Region Indicator */
+.ffp-region-indicator {
+    background: #007cba;
+    color: white;
+    padding: 4px 12px;
+    border-radius: 15px;
+    font-size: 12px;
+    font-weight: 500;
+    margin-left: 10px;
+}
+
+/* Bookmaker Badge */
+.ffp-bookmaker-badge {
+    margin-left: auto;
+}
+
+.ffp-bookmaker-name {
+    background: linear-gradient(135deg, #ff6b6b 0%, #ee5a24 100%);
+    color: white;
+    padding: 4px 10px;
+    border-radius: 12px;
+    font-size: 11px;
+    font-weight: bold;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+/* Odds Section Enhancements */
+.ffp-odds-title {
+    font-size: 14px;
+    font-weight: bold;
+    color: #495057;
+    margin-bottom: 10px;
+    text-align: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+}
+
+.ffp-odds-source {
+    font-size: 11px;
+    font-weight: normal;
+    color: #6c757d;
+    background: #f8f9fa;
+    padding: 2px 8px;
+    border-radius: 10px;
+}
+
+/* Enhanced Match Status */
+.ffp-match-status {
+    font-size: 12px;
+    padding: 4px 8px;
+    border-radius: 12px;
+    background: rgba(255, 255, 255, 0.2);
+    font-weight: 500;
+}
+
+.ffp-status-ft { 
+    background-color: #28a745; 
+    color: white;
+}
+
+.ffp-status-live { 
+    background-color: #dc3545; 
+    color: white;
+    animation: pulse 2s infinite; 
+}
+
+.ffp-status-ns {
+    background-color: #6c757d;
+    color: white;
+}
+
+.ffp-status-1h,
+.ffp-status-2h {
+    background-color: #28a745;
+    color: white;
+    animation: pulse 2s infinite;
+}
+
+.ffp-status-ht {
+    background-color: #ffc107;
+    color: #212529;
+}
+
+.ffp-status-postponed,
+.ffp-status-cancelled {
+    background-color: #dc3545;
+    color: white;
+}
+
+/* African League Styling */
+.ffp-theme-african {
+    --ffp-primary-color: #009639;
+    --ffp-secondary-color: #ff0000;
+    --ffp-accent-color: #ffdd00;
+}
+
+.ffp-theme-african .ffp-league-title {
+    background: linear-gradient(135deg, #009639 0%, #ffdd00 100%);
+    color: white;
+}
+
+.ffp-theme-african .ffp-match-header {
+    background: linear-gradient(135deg, #009639 0%, #ff0000 100%);
+}
+
+/* Cameroon Theme */
+.ffp-theme-cameroon {
+    --ffp-primary-color: #009639;
+    --ffp-secondary-color: #ff0000;
+    --ffp-accent-color: #ffdd00;
+}
+
+.ffp-theme-cameroon .ffp-section-title {
+    background: linear-gradient(135deg, #009639 0%, #ff0000 50%, #ffdd00 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+/* MLS Theme */
+.ffp-theme-mls {
+    --ffp-primary-color: #005da6;
+    --ffp-secondary-color: #c39a2d;
+}
+
+.ffp-theme-mls .ffp-match-header {
+    background: linear-gradient(135deg, #005da6 0%, #c39a2d 100%);
+}
+
+/* International Theme */
+.ffp-theme-international {
+    --ffp-primary-color: #1f4e79;
+    --ffp-secondary-color: #d4af37;
+}
+
+.ffp-theme-international .ffp-match-header {
+    background: linear-gradient(135deg, #1f4e79 0%, #d4af37 100%);
+}
+
+/* Enhanced Responsive Design for New Features */
+@media (max-width: 768px) {
+    .ffp-league-title {
+        font-size: 16px;
+        padding: 8px 12px;
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 5px;
+    }
+    
+    .ffp-league-country {
+        margin-left: 0;
+        align-self: flex-end;
+    }
+    
+    .ffp-bookmaker-badge {
+        margin-left: 0;
+        margin-top: 5px;
+    }
+    
+    .ffp-region-indicator {
+        margin-left: 0;
+        margin-top: 5px;
+    }
+    
+    .ffp-odds-title {
+        flex-direction: column;
+        gap: 5px;
+    }
+}
+
+/* League Priority Indicators */
+.ffp-league-priority-high {
+    border-left-color: #dc3545;
+    border-left-width: 6px;
+}
+
+.ffp-league-priority-medium {
+    border-left-color: #ffc107;
+    border-left-width: 5px;
+}
+
+.ffp-league-priority-low {
+    border-left-color: #28a745;
+    border-left-width: 4px;
+}
+
+/* Competition Type Badges */
+.ffp-competition-international::before {
+    content: "🌍";
+    margin-right: 5px;
+}
+
+.ffp-competition-continental::before {
+    content: "🏆";
+    margin-right: 5px;
+}
+
+.ffp-competition-national::before {
+    content: "🏁";
+    margin-right: 5px;
+}
+
+.ffp-competition-friendly::before {
+    content: "🤝";
+    margin-right: 5px;
+}
+
+/* Advanced Bookmaker Styling */
+.ffp-bookmaker-1xbet {
+    background: linear-gradient(135deg, #1f4e79 0%, #4682b4 100%);
+}
+
+.ffp-bookmaker-bet365 {
+    background: linear-gradient(135deg, #ffd700 0%, #ffed4a 100%);
+    color: #333;
+}
+
+.ffp-bookmaker-betway {
+    background: linear-gradient(135deg, #00a650 0%, #28a745 100%);
+}
+
+/* Loading Animation for Bookmaker Data */
+.ffp-odds-loading {
+    background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
+    background-size: 200% 100%;
+    animation: loading 1.5s infinite;
+}
+
+@keyframes loading {
+    0% { background-position: 200% 0; }
+    100% { background-position: -200% 0; }
 }
 
 /* Match Card */

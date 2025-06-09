@@ -3,7 +3,7 @@
  * Plugin Name: Football Fixtures Pro
  * Plugin URI: https://mogadonko.com/football-fixtures-pro
  * Description: Professional football fixtures and odds display plugin with Elementor integration and API-Football.com support
- * Version: 1.0.0
+ * Version: 1.0.1
  * Author: Mo Gadaphy - MOGADONKO AGENCY
  * Author URI: https://mogadonko.com
  * License: GPL v2 or later

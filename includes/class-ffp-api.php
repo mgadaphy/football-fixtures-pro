@@ -181,13 +181,18 @@ class FFP_API {
     }
     
     /**
-     * Get odds for a fixture
+     * Get odds for a fixture with bookmaker support
      */
-    public function get_odds($fixture_id, $bet = '1X2') {
+    public function get_odds($fixture_id, $bet = '1X2', $bookmaker = null) {
         $params = array(
             'fixture' => $fixture_id,
             'bet' => $bet
         );
+        
+        // Add bookmaker preference if specified
+        if ($bookmaker) {
+            $params['bookmaker'] = $bookmaker;
+        }
         
         return $this->make_request('odds', $params);
     }
@@ -265,22 +270,184 @@ class FFP_API {
     }
     
     /**
-     * Get popular leagues
+     * Get popular leagues with comprehensive coverage
      */
     public function get_popular_leagues() {
         $popular_leagues = array(
-            array('id' => 39, 'name' => 'Premier League', 'country' => 'England'),
-            array('id' => 140, 'name' => 'La Liga', 'country' => 'Spain'),
-            array('id' => 135, 'name' => 'Serie A', 'country' => 'Italy'),
-            array('id' => 78, 'name' => 'Bundesliga', 'country' => 'Germany'),
-            array('id' => 61, 'name' => 'Ligue 1', 'country' => 'France'),
-            array('id' => 2, 'name' => 'UEFA Champions League', 'country' => 'World'),
-            array('id' => 3, 'name' => 'UEFA Europa League', 'country' => 'World'),
-            array('id' => 1, 'name' => 'World Cup', 'country' => 'World'),
-            array('id' => 4, 'name' => 'Euro Championship', 'country' => 'World')
+            // Major European Leagues
+            array('id' => 39, 'name' => 'Premier League', 'country' => 'England', 'active' => true),
+            array('id' => 140, 'name' => 'La Liga', 'country' => 'Spain', 'active' => true),
+            array('id' => 135, 'name' => 'Serie A', 'country' => 'Italy', 'active' => true),
+            array('id' => 78, 'name' => 'Bundesliga', 'country' => 'Germany', 'active' => true),
+            array('id' => 61, 'name' => 'Ligue 1', 'country' => 'France', 'active' => true),
+            array('id' => 94, 'name' => 'Primeira Liga', 'country' => 'Portugal', 'active' => true),
+            array('id' => 88, 'name' => 'Eredivisie', 'country' => 'Netherlands', 'active' => true),
+            
+            // International Competitions
+            array('id' => 2, 'name' => 'UEFA Champions League', 'country' => 'Europe', 'active' => true),
+            array('id' => 3, 'name' => 'UEFA Europa League', 'country' => 'Europe', 'active' => true),
+            array('id' => 848, 'name' => 'UEFA Conference League', 'country' => 'Europe', 'active' => true),
+            array('id' => 1, 'name' => 'World Cup', 'country' => 'World', 'active' => true),
+            array('id' => 4, 'name' => 'Euro Championship', 'country' => 'Europe', 'active' => false),
+            array('id' => 5, 'name' => 'UEFA Nations League', 'country' => 'Europe', 'active' => true),
+            
+            // World Cup Qualifiers & Friendlies
+            array('id' => 32, 'name' => 'World Cup - Qualification CONCACAF', 'country' => 'North America', 'active' => true),
+            array('id' => 34, 'name' => 'World Cup - Qualification Africa', 'country' => 'Africa', 'active' => true),
+            array('id' => 33, 'name' => 'World Cup - Qualification Asia', 'country' => 'Asia', 'active' => true),
+            array('id' => 35, 'name' => 'World Cup - Qualification South America', 'country' => 'South America', 'active' => true),
+            array('id' => 10, 'name' => 'Friendlies', 'country' => 'World', 'active' => true),
+            
+            // Africa Cup of Nations & African Competitions
+            array('id' => 6, 'name' => 'Africa Cup of Nations', 'country' => 'Africa', 'active' => true),
+            array('id' => 12, 'name' => 'CAF Champions League', 'country' => 'Africa', 'active' => true),
+            array('id' => 13, 'name' => 'CAF Confederation Cup', 'country' => 'Africa', 'active' => true),
+            array('id' => 14, 'name' => 'AFCON Qualification', 'country' => 'Africa', 'active' => true),
+            
+            // African National Leagues
+            array('id' => 233, 'name' => 'Elite One', 'country' => 'Cameroon', 'active' => true),
+            array('id' => 200, 'name' => 'Egyptian Premier League', 'country' => 'Egypt', 'active' => true),
+            array('id' => 202, 'name' => 'Botola Pro', 'country' => 'Morocco', 'active' => true),
+            array('id' => 204, 'name' => 'Ligue 1', 'country' => 'Algeria', 'active' => true),
+            array('id' => 207, 'name' => 'Premier League', 'country' => 'South Africa', 'active' => true),
+            array('id' => 208, 'name' => 'Ligue 1', 'country' => 'Tunisia', 'active' => true),
+            array('id' => 218, 'name' => 'Premier League', 'country' => 'Ghana', 'active' => true),
+            array('id' => 220, 'name' => 'Girabola', 'country' => 'Angola', 'active' => true),
+            array('id' => 244, 'name' => 'Premier League', 'country' => 'Kenya', 'active' => true),
+            array('id' => 253, 'name' => 'Ligue 1', 'country' => 'Senegal', 'active' => true),
+            
+            // North American Leagues
+            array('id' => 253, 'name' => 'Major League Soccer', 'country' => 'USA', 'active' => true),
+            array('id' => 262, 'name' => 'Liga MX', 'country' => 'Mexico', 'active' => true),
+            array('id' => 254, 'name' => 'Canadian Premier League', 'country' => 'Canada', 'active' => true),
+            
+            // South American Leagues
+            array('id' => 71, 'name' => 'Serie A', 'country' => 'Brazil', 'active' => true),
+            array('id' => 128, 'name' => 'Primera División', 'country' => 'Argentina', 'active' => true),
+            array('id' => 131, 'name' => 'Primera División', 'country' => 'Chile', 'active' => true),
+            array('id' => 239, 'name' => 'Primera A', 'country' => 'Colombia', 'active' => true),
+            array('id' => 242, 'name' => 'Primera División', 'country' => 'Ecuador', 'active' => true),
+            array('id' => 271, 'name' => 'Primera División', 'country' => 'Uruguay', 'active' => true),
+            array('id' => 273, 'name' => 'Primera División', 'country' => 'Paraguay', 'active' => true),
+            
+            // South American Competitions
+            array('id' => 11, 'name' => 'Copa Libertadores', 'country' => 'South America', 'active' => true),
+            array('id' => 13, 'name' => 'Copa Sudamericana', 'country' => 'South America', 'active' => true),
+            array('id' => 9, 'name' => 'Copa America', 'country' => 'South America', 'active' => true),
+            
+            // Asian Leagues & Competitions
+            array('id' => 188, 'name' => 'J1 League', 'country' => 'Japan', 'active' => true),
+            array('id' => 292, 'name' => 'K League 1', 'country' => 'South Korea', 'active' => true),
+            array('id' => 169, 'name' => 'Super League', 'country' => 'China', 'active' => true),
+            array('id' => 15, 'name' => 'AFC Champions League', 'country' => 'Asia', 'active' => true),
+            array('id' => 16, 'name' => 'AFC Cup', 'country' => 'Asia', 'active' => true),
+            array('id' => 7, 'name' => 'Asian Cup', 'country' => 'Asia', 'active' => true),
+            
+            // Oceania
+            array('id' => 188, 'name' => 'A-League', 'country' => 'Australia', 'active' => true),
+            
+            // CONCACAF Competitions
+            array('id' => 16, 'name' => 'CONCACAF Champions League', 'country' => 'North America', 'active' => true),
+            array('id' => 17, 'name' => 'Gold Cup', 'country' => 'North America', 'active' => true),
+            
+            // Youth & Women's Competitions
+            array('id' => 18, 'name' => 'FIFA U-20 World Cup', 'country' => 'World', 'active' => true),
+            array('id' => 19, 'name' => 'FIFA U-17 World Cup', 'country' => 'World', 'active' => true),
+            array('id' => 8, 'name' => 'FIFA Women\'s World Cup', 'country' => 'World', 'active' => true),
+            
+            // Olympic Football
+            array('id' => 18, 'name' => 'Olympic Games', 'country' => 'World', 'active' => true),
         );
         
         return $popular_leagues;
+    }
+    
+    /**
+     * Get available bookmakers
+     */
+    public function get_available_bookmakers() {
+        $bookmakers = array(
+            '1xbet' => array(
+                'id' => 1,
+                'name' => '1xBet',
+                'default' => true
+            ),
+            'bet365' => array(
+                'id' => 8,
+                'name' => 'Bet365',
+                'default' => false
+            ),
+            'william_hill' => array(
+                'id' => 11,
+                'name' => 'William Hill',
+                'default' => false
+            ),
+            'betway' => array(
+                'id' => 18,
+                'name' => 'Betway',
+                'default' => false
+            ),
+            'unibet' => array(
+                'id' => 5,
+                'name' => 'Unibet',
+                'default' => false
+            ),
+            'ladbrokes' => array(
+                'id' => 9,
+                'name' => 'Ladbrokes',
+                'default' => false
+            ),
+            'coral' => array(
+                'id' => 10,
+                'name' => 'Coral',
+                'default' => false
+            ),
+            'bwin' => array(
+                'id' => 6,
+                'name' => 'Bwin',
+                'default' => false
+            ),
+            'pinnacle' => array(
+                'id' => 12,
+                'name' => 'Pinnacle',
+                'default' => false
+            ),
+            'marathonbet' => array(
+                'id' => 14,
+                'name' => 'MarathonBet',
+                'default' => false
+            )
+        );
+        
+        return $bookmakers;
+    }
+    
+    /**
+     * Get leagues by region/continent
+     */
+    public function get_leagues_by_region($region = 'all') {
+        $all_leagues = $this->get_popular_leagues();
+        
+        if ($region === 'all') {
+            return $all_leagues;
+        }
+        
+        $region_mapping = array(
+            'europe' => array('England', 'Spain', 'Italy', 'Germany', 'France', 'Portugal', 'Netherlands', 'Europe'),
+            'africa' => array('Africa', 'Cameroon', 'Egypt', 'Morocco', 'Algeria', 'South Africa', 'Tunisia', 'Ghana', 'Angola', 'Kenya', 'Senegal'),
+            'north_america' => array('USA', 'Mexico', 'Canada', 'North America'),
+            'south_america' => array('Brazil', 'Argentina', 'Chile', 'Colombia', 'Ecuador', 'Uruguay', 'Paraguay', 'South America'),
+            'asia' => array('Japan', 'South Korea', 'China', 'Asia'),
+            'international' => array('World', 'Europe', 'Africa', 'Asia', 'North America', 'South America')
+        );
+        
+        if (!isset($region_mapping[$region])) {
+            return array();
+        }
+        
+        return array_filter($all_leagues, function($league) use ($region_mapping, $region) {
+            return in_array($league['country'], $region_mapping[$region]);
+        });
     }
     
     /**
