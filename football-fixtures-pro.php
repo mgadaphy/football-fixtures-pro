@@ -3,7 +3,7 @@
  * Plugin Name: Football Fixtures Pro
  * Plugin URI: https://mogadonko.com/football-fixtures-pro
  * Description: Professional football fixtures and odds display plugin with Elementor integration and API-Football.com support
- * Version: 1.0.1
+ * Version: 1.0.2
  * Author: Mo Gadaphy - MOGADONKO AGENCY
  * Author URI: https://mogadonko.com
  * License: GPL v2 or later
@@ -112,15 +112,52 @@ class FootballFixturesPro {
      * Enqueue frontend scripts and styles
      */
     public function enqueue_scripts() {
+        // Enqueue enhanced frontend CSS
         wp_enqueue_style('ffp-frontend', FFP_PLUGIN_URL . 'assets/css/frontend.css', array(), FFP_VERSION);
+        
+        // Enqueue enhanced frontend JavaScript
         wp_enqueue_script('ffp-frontend', FFP_PLUGIN_URL . 'assets/js/frontend.js', array('jquery'), FFP_VERSION, true);
         
-        // Localize script
+        // Localize script with enhanced data
         wp_localize_script('ffp-frontend', 'ffp_ajax', array(
             'ajax_url' => admin_url('admin-ajax.php'),
             'nonce' => wp_create_nonce('ffp_nonce'),
-            'loading_text' => __('Loading...', 'football-fixtures-pro')
+            'loading_text' => __('Loading fixtures...', 'football-fixtures-pro'),
+            'error_text' => __('Error loading fixtures', 'football-fixtures-pro'),
+            'no_matches_text' => __('No matches found', 'football-fixtures-pro'),
+            'timezone' => wp_timezone_string(),
+            'date_format' => get_option('date_format', 'F j, Y'),
+            'time_format' => get_option('time_format', 'g:i a'),
+            'is_rtl' => is_rtl(),
+            'currency_symbol' => function_exists('get_woocommerce_currency_symbol') ? get_woocommerce_currency_symbol() : '$',
+            'api_rate_limit' => 100, // requests per hour
+            'auto_refresh_interval' => 60000, // 1 minute
+            'animation_duration' => 300,
+            'enable_analytics' => true,
+            'debug_mode' => defined('WP_DEBUG') && WP_DEBUG
         ));
+        
+        // Add custom CSS for Elementor compatibility
+        $custom_css = "
+            .elementor-widget-football-fixtures-pro .ffp-widget-container {
+                max-width: 100%;
+                margin: 0;
+            }
+            
+            .elementor-widget-football-fixtures-pro .ffp-section-title {
+                margin-top: 0;
+            }
+            
+            .elementor-editor-active .ffp-match-card {
+                pointer-events: none;
+            }
+            
+            .elementor-editor-active .ffp-bet-button {
+                pointer-events: none;
+                cursor: default;
+            }
+        ";
+        wp_add_inline_style('ffp-frontend', $custom_css);
     }
     
     /**
